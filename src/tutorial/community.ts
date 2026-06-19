@@ -1,4 +1,4 @@
-import { getStorageClient } from "../utils.ts";
+import { getStorageClient, uploadSmallContentToBulletin } from "../utils.ts";
 import type { CommentContent, CommentEntry, CommentType } from "./types.ts";
 
 const COMMENT_TYPE_MAP: Record<CommentType, number> = {
@@ -12,10 +12,7 @@ const COMMENT_TYPE_RMAP: CommentType[] = [
 
 export async function uploadComment(content: CommentContent): Promise<string> {
     const bytes = new TextEncoder().encode(JSON.stringify(content));
-    const client = await getStorageClient();
-    const result = await client.store(bytes).send();
-    if (!result.cid) throw new Error("upload returned no CID");
-    return result.cid.toString();
+    return uploadSmallContentToBulletin(bytes);
 }
 
 export async function fetchCommentContent(cid: string): Promise<CommentContent | null> {

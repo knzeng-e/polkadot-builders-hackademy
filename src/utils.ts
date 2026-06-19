@@ -5,14 +5,15 @@ import {
     DevProvider,
     type SignerState,
 } from "@parity/product-sdk-signer";
-import { CloudStorageClient, createLazySigner } from "@parity/product-sdk-cloud-storage";
+import { getPreimageManager, requestResourceAllocation } from "@parity/product-sdk-host";
+import { CloudStorageClient, createLazySigner, hashToCid } from "@parity/product-sdk-cloud-storage";
 import type { Move, RoundResult, PlayerData, GameData } from "./types.ts";
 
 // ---------------------------------------------------------------------------
 // Signer Manager (Host API)
 // ---------------------------------------------------------------------------
 
-const PRODUCT_ID = "playground-tutorial.dot";
+const PRODUCT_ID = "polkadot-builders-hackademy42.dot";
 
 export const signerManager = new SignerManager({
     dappName: "playground-tutorial",
@@ -66,8 +67,10 @@ export function randomMove(): Move {
 // ---------------------------------------------------------------------------
 
 const CID_KEY = (addr: string) => `rps-game-cid:${addr}`;
+const MAX_HOST_SPONSORED_BYTES = 2 * 1024 * 1024;
 
 let _storageClient: CloudStorageClient | null = null;
+let _hostBulletinAllowanceReady = false;
 
 export async function getStorageClient(): Promise<CloudStorageClient> {
     if (!_storageClient) {
@@ -77,6 +80,46 @@ export async function getStorageClient(): Promise<CloudStorageClient> {
         });
     }
     return _storageClient;
+}
+
+async function ensureHostBulletinAllowance(): Promise<void> {
+    if (_hostBulletinAllowanceReady) return;
+
+    try {
+        const [outcome] = await requestResourceAllocation([
+            { tag: "BulletinAllowance", value: undefined },
+        ]);
+
+        if (outcome?.tag === "Rejected") {
+            throw new Error("Bulletin storage permission was rejected.");
+        }
+
+        if (outcome?.tag === "NotAvailable") {
+            throw new Error("Bulletin storage allowance is not available in this host.");
+        }
+
+        _hostBulletinAllowanceReady = true;
+    } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        if (!message.includes("TruAPI unavailable")) {
+            throw error;
+        }
+    }
+}
+
+export async function uploadSmallContentToBulletin(bytes: Uint8Array): Promise<string> {
+    if (bytes.byteLength > MAX_HOST_SPONSORED_BYTES) {
+        throw new Error("Content is too large for host-sponsored Bulletin storage.");
+    }
+
+    const manager = await getPreimageManager();
+    if (!manager) {
+        throw new Error("Host-sponsored Bulletin storage is only available inside a Polkadot host.");
+    }
+
+    await ensureHostBulletinAllowance();
+    const preimageKey = await manager.submit(bytes);
+    return hashToCid(preimageKey as `0x${string}`);
 }
 
 export async function loadPlayerData(address: string): Promise<PlayerData> {
