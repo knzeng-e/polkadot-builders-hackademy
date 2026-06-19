@@ -1,5 +1,7 @@
 # Product Builders Hackademy
 
+![Product Builders Hackademy cover](docs/assets/builders-hackademy-cover.png)
+
 > [!WARNING]
 > Prototype / reference implementation / proof-of-concept. Not audited. Use at your own risk.
 
