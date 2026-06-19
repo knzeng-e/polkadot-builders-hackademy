@@ -215,6 +215,65 @@ pg deploy
         icon: "🎨",
         lessons: [
             {
+                id: "mod-with-pg",
+                title: "Start from a live app",
+                duration: "~3 min",
+                track: "both",
+                concept: (
+                    <>
+                        <p>
+                            <code>pg mod</code> turns a live, moddable <code>.dot</code> app into a local
+                            project you can edit. It reads the app's published source repo, downloads the
+                            code, installs what it needs, and gives you a working starting point.
+                        </p>
+                        <p>
+                            That is the core playground loop: find an app that already works, mod it, then
+                            deploy your version back to your own <code>.dot</code> address.
+                        </p>
+                    </>
+                ),
+                code: {
+                    filename: "terminal",
+                    language: "bash",
+                    snippet: `# Pick a moddable app from playground.dot, then run:
+pg mod playground-tutorial.dot
+
+# Open the generated folder:
+cd playground-tutorial-*
+
+# Make changes locally, then deploy your version:
+pg deploy`,
+                },
+                lab: {
+                    title: "Understand the mod workflow",
+                    file: "terminal",
+                    steps: [
+                        <>Find any app in playground.dot with a Moddable badge.</>,
+                        <>Run <code>pg mod &lt;app-name&gt;.dot</code> to create a local copy.</>,
+                        <>Open the generated folder in your editor.</>,
+                        <>Make a small change, then use <code>pg deploy</code> when you are ready to publish your version.</>,
+                    ],
+                    checkpoint: "You can explain the loop: pg mod brings a live app local, and pg deploy publishes your mod.",
+                },
+                aiTips: [
+                    {
+                        type: "understand",
+                        title: "Understand moddable app source",
+                        rationale: "Before editing, understand how a live app points back to source code and why that makes it reusable.",
+                        prompt: `Explain how a moddable playground.dot app can be turned into a local project with "pg mod". What source information must the deployed app publish? What happens locally after I run the command? How is this different from cloning a random GitHub repository?`,
+                    },
+                ],
+                resources: [
+                    {
+                        title: "playground CLI reference (pg mod)",
+                        url: "https://docs.polkadot.com/apps/",
+                        type: "docs",
+                        description: "The CLI command for starting from an existing moddable app",
+                    },
+                ],
+            },
+
+            {
                 id: "mod-design",
                 title: "Change the design",
                 duration: "~5 min",
