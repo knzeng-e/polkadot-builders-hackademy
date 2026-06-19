@@ -10,10 +10,53 @@ export default function MyProfile({ account, refreshKey }: {
 }) {
     const [data, setData] = useState<PlayerData | null>(null);
     const [expanded, setExpanded] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        loadPlayerData(account.address).then(setData).catch(console.error);
+        let cancelled = false;
+
+        setLoading(true);
+        setError(null);
+
+        loadPlayerData(account.address)
+            .then(playerData => {
+                if (!cancelled) setData(playerData);
+            })
+            .catch(err => {
+                console.error(err);
+                if (!cancelled) setError("Could not load saved game history.");
+            })
+            .finally(() => {
+                if (!cancelled) setLoading(false);
+            });
+
+        return () => {
+            cancelled = true;
+        };
     }, [account.address, refreshKey]);
+
+    if (loading) {
+        return (
+            <div className="profile-card">
+                <div className="profile-header">
+                    <div className="profile-address">{short(account.address)}</div>
+                </div>
+                <div className="profile-empty">Loading game history...</div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="profile-card">
+                <div className="profile-header">
+                    <div className="profile-address">{short(account.address)}</div>
+                </div>
+                <div className="profile-empty">{error}</div>
+            </div>
+        );
+    }
 
     if (!data || data.totalGames === 0) {
         return (

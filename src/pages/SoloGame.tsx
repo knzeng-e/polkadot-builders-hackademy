@@ -26,7 +26,8 @@ export default function SoloGame({ account, onDone }: {
     const [countdown, setCountdown] = useState(10);
     const [timedOutRound, setTimedOutRound] = useState(false);
     const [gameOver, setGameOver] = useState(false);
-    const [saved, setSaved] = useState(false);
+    const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
+    const [saveError, setSaveError] = useState<string | null>(null);
 
     const playerWins = rounds.filter(r => r.result === "win").length;
     const computerWins = rounds.filter(r => r.result === "loss").length;
@@ -80,15 +81,22 @@ export default function SoloGame({ account, onDone }: {
 
             if (finished) {
                 setGameOver(true);
+                setSaveStatus("saving");
+                setSaveError(null);
                 const finalResult: RoundResult = w > l ? "win" : l > w ? "loss" : "draw";
                 const finalPts = pointsForResult(finalResult);
-                await appendGame(account.address, {
-                    rounds: newRounds,
-                    result: finalResult,
-                    pointsChange: finalPts,
-                    timestamp: Math.floor(Date.now() / 1000),
-                });
-                setSaved(true);
+                try {
+                    await appendGame(account.address, {
+                        rounds: newRounds,
+                        result: finalResult,
+                        pointsChange: finalPts,
+                        timestamp: Math.floor(Date.now() / 1000),
+                    });
+                    setSaveStatus("saved");
+                } catch (error) {
+                    setSaveStatus("error");
+                    setSaveError(error instanceof Error ? error.message : "Could not save this match.");
+                }
             } else {
                 startNewRound();
             }
@@ -182,7 +190,17 @@ export default function SoloGame({ account, onDone }: {
                         ))}
                     </div>
 
-                    {saved && <div className="status" style={{ color: "var(--success)" }}>Saved to network</div>}
+                    {saveStatus === "saving" && (
+                        <div className="status" style={{ color: "var(--text2)" }}>Saving to network...</div>
+                    )}
+                    {saveStatus === "saved" && (
+                        <div className="status" style={{ color: "var(--success)" }}>Saved to network</div>
+                    )}
+                    {saveStatus === "error" && (
+                        <div className="status" style={{ color: "var(--danger)" }}>
+                            Save failed{saveError ? `: ${saveError}` : ""}
+                        </div>
+                    )}
 
                     <div style={{ display: "flex", gap: 8, justifyContent: "center" }}>
                         <button className="btn btn-primary" onClick={onDone}>
