@@ -72,7 +72,7 @@ let _storageClient: CloudStorageClient | null = null;
 export async function getStorageClient(): Promise<CloudStorageClient> {
     if (!_storageClient) {
         _storageClient = await CloudStorageClient.create({
-            environment: "paseo",
+            environment: "summit",
             signer: createLazySigner(() => signerManager.getSigner()),
         });
     }
