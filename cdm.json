@@ -1,0 +1,25 @@
+{
+  "registry": "0xf62c2ece29cd8df2e10040ecfa5a894a5c5d9cb0",
+  "dependencies": {
+    "@rps/leaderboard": "latest",
+    "@tutorial/epistemon": "latest",
+    "@tutorial/community": "latest"
+  },
+  "contracts": {
+    "@rps/leaderboard": {
+      "address": "",
+      "source": "contract/leaderboard.rs",
+      "constructor": "new"
+    },
+    "@tutorial/epistemon": {
+      "address": "",
+      "source": "contract/epistemon.rs",
+      "constructor": "new"
+    },
+    "@tutorial/community": {
+      "address": "",
+      "source": "contract/community.rs",
+      "constructor": "new"
+    }
+  }
+}
