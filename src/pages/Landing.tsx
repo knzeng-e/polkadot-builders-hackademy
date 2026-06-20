@@ -78,10 +78,12 @@ const EXTRAS = [
 
 export default function Landing({
     onStart,
+    onOpenTrinity,
     onResume,
     lastLesson,
 }: {
     onStart: (track: "fast" | "deep") => void;
+    onOpenTrinity: () => void;
     onResume?: () => void;
     lastLesson?: string;
 }) {
@@ -120,6 +122,9 @@ export default function Landing({
                             </button>
                             <button className="btn btn-ghost lp-cta-secondary" onClick={() => onStart("deep")}>
                                 Deep dive 🔬
+                            </button>
+                            <button className="btn btn-ghost lp-cta-secondary" onClick={onOpenTrinity}>
+                                Wake up Neo · Trinity
                             </button>
                         </div>
                         {onResume && lastLesson && (
@@ -225,6 +230,27 @@ export default function Landing({
                             onClick={e => { e.stopPropagation(); onStart("deep"); }}
                         >
                             Start deep dive →
+                        </button>
+                    </div>
+
+                    <div className="lp-track-card lp-track-deep" onClick={onOpenTrinity}>
+                        <div className="lp-track-top">
+                            <span className="lp-track-icon">🕳️</span>
+                            <div>
+                                <div className="lp-track-name">Trinity manifesto</div>
+                                <div className="lp-track-time">~12 min · philosophy + architecture</div>
+                            </div>
+                        </div>
+                        <ul className="lp-track-list">
+                            <li>Wake up Neo — why Web3 is agency, not wallets</li>
+                            <li>Understand Trinity as one API across products and surfaces</li>
+                            <li>Read Celerity, Levity, and Humanity as product superpowers</li>
+                        </ul>
+                        <button
+                            className="btn btn-ghost btn-full"
+                            onClick={e => { e.stopPropagation(); onOpenTrinity(); }}
+                        >
+                            Open Trinity →
                         </button>
                     </div>
                 </div>
