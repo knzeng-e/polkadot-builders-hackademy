@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { isInsideContainerSync } from "@parity/product-sdk-host";
 import { useSignerState, signerManager, short } from "./utils.ts";
 import Landing from "./pages/Landing.tsx";
+import TrinityManifesto from "./pages/TrinityManifesto.tsx";
 import SoloGame from "./pages/SoloGame.tsx";
 import Collection from "./pages/Collection.tsx";
 import TutorialShell from "./components/TutorialShell.tsx";
@@ -11,6 +12,7 @@ import type { TutorialProgress } from "./tutorial/types.ts";
 
 type View =
     | { page: "landing" }
+    | { page: "trinity" }
     | { page: "lesson"; moduleId: string; lessonId: string; track: "fast" | "deep" }
     | { page: "solo"; returnTo?: { moduleId: string; lessonId: string; track: "fast" | "deep" } }
     | { page: "collection" };
@@ -52,6 +54,7 @@ export default function App() {
     }
 
     const goLanding = () => setView({ page: "landing" });
+    const openTrinity = () => setView({ page: "trinity" });
 
     const currentTrack = view.page === "lesson" ? view.track
         : view.page === "solo" && view.returnTo ? view.returnTo.track
@@ -84,6 +87,7 @@ export default function App() {
     };
 
     const isLesson = view.page === "lesson";
+    const isTrinity = view.page === "trinity";
     const isSolo = view.page === "solo";
     const isCollection = view.page === "collection";
 
@@ -94,7 +98,7 @@ export default function App() {
                     <h1 onClick={goLanding} style={{ cursor: "pointer" }}>
                         Product Builders Hackademy
                     </h1>
-                    {(isLesson || isCollection) && (
+                    {(isLesson || isTrinity || isCollection) && (
                         <button className="back-btn" onClick={goLanding}>← Home</button>
                     )}
                 </div>
@@ -125,10 +129,18 @@ export default function App() {
                 <div className="page-narrow">
                     <Landing
                         onStart={startTrack}
+                        onOpenTrinity={openTrinity}
                         onResume={lastLesson ? () => navigateLesson(lastLesson.moduleId, lastLesson.lessonId) : undefined}
                         lastLesson={lastLesson?.lessonId}
                     />
                 </div>
+            )}
+
+            {view.page === "trinity" && (
+                <TrinityManifesto
+                    onStartFast={() => startTrack("fast")}
+                    onStartDeep={() => startTrack("deep")}
+                />
             )}
 
             {view.page === "lesson" && (
