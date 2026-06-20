@@ -1,0 +1,293 @@
+.trinity-page {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 32px 20px 72px;
+}
+
+.trinity-hero,
+.trinity-section,
+.trinity-card {
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: linear-gradient(180deg, rgba(18, 18, 46, 0.94), rgba(8, 8, 20, 0.78));
+  border-radius: 22px;
+  box-shadow: 0 24px 80px rgba(2, 6, 23, 0.28);
+}
+
+.trinity-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 44px 34px;
+  margin-bottom: 22px;
+}
+
+.trinity-hero::before {
+  content: "";
+  position: absolute;
+  inset: -40% -20% auto auto;
+  width: 440px;
+  height: 440px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.22), transparent 60%);
+  pointer-events: none;
+}
+
+.trinity-eyebrow {
+  color: #a78bfa;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+
+.trinity-hero h1,
+.trinity-section h2,
+.trinity-card h2 {
+  color: var(--text);
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+
+.trinity-hero h1 {
+  font-size: clamp(42px, 10vw, 96px);
+  margin-bottom: 20px;
+}
+
+.trinity-hero h1 span {
+  color: #c4b5fd;
+}
+
+.trinity-lede {
+  font-size: 18px;
+  color: var(--text);
+}
+
+.trinity-hero p,
+.trinity-section p,
+.trinity-card p {
+  color: var(--text2);
+  font-size: 15px;
+  line-height: 1.78;
+  margin: 0 0 16px;
+}
+
+.trinity-hero p:last-child,
+.trinity-section p:last-child,
+.trinity-card p:last-child {
+  margin-bottom: 0;
+}
+
+.trinity-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.trinity-grid {
+  display: grid;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.trinity-card {
+  padding: 26px;
+}
+
+.trinity-card-kicker {
+  color: #a78bfa;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.trinity-map {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 150px minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  margin-top: 26px;
+}
+
+.trinity-map-col {
+  display: grid;
+  gap: 10px;
+}
+
+.trinity-map-col span,
+.trinity-map-center {
+  border: 1px solid rgba(167, 139, 250, 0.32);
+  background: rgba(2, 6, 23, 0.54);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: "SF Mono", "Fira Code", Menlo, monospace;
+  font-size: 13px;
+  padding: 12px 14px;
+  text-align: center;
+}
+
+.trinity-map-center {
+  border-color: rgba(167, 139, 250, 0.72);
+  color: #c4b5fd;
+  font-size: 18px;
+  padding: 24px 14px;
+  box-shadow: 0 0 40px rgba(124, 58, 237, 0.16);
+}
+
+.trinity-section {
+  margin-top: 22px;
+  padding: 30px;
+}
+
+.trinity-section h2,
+.trinity-card h2 {
+  font-size: clamp(26px, 5vw, 42px);
+  margin-bottom: 16px;
+}
+
+.trinity-goals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 20px 0 22px;
+}
+
+.trinity-goals span {
+  border: 1px solid rgba(167, 139, 250, 0.32);
+  background: rgba(124, 58, 237, 0.1);
+  border-radius: 999px;
+  color: #ddd6fe;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 7px 11px;
+}
+
+.trinity-superpowers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.trinity-power {
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  background: rgba(2, 6, 23, 0.45);
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.trinity-power-name {
+  color: #f8fafc;
+  font-size: 19px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.trinity-power-label {
+  color: #a78bfa;
+  font-family: "SF Mono", "Fira Code", Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.trinity-power p {
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.trinity-speech {
+  background: radial-gradient(circle at top left, rgba(124, 58, 237, 0.2), transparent 32%),
+              linear-gradient(180deg, rgba(18, 18, 46, 0.98), rgba(8, 8, 20, 0.86));
+}
+
+.trinity-speech p {
+  color: #dbeafe;
+  font-size: 16px;
+}
+
+.trinity-path {
+  counter-reset: path;
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  margin-top: 18px;
+}
+
+.trinity-path li {
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  background: rgba(2, 6, 23, 0.36);
+  border-radius: 12px;
+  color: var(--text2);
+  font-size: 14px;
+  line-height: 1.6;
+  padding: 14px 16px 14px 52px;
+  position: relative;
+}
+
+.trinity-path li::before {
+  align-items: center;
+  background: rgba(124, 58, 237, 0.18);
+  border: 1px solid rgba(167, 139, 250, 0.35);
+  border-radius: 999px;
+  color: #c4b5fd;
+  content: counter(path, decimal-leading-zero);
+  counter-increment: path;
+  display: flex;
+  font-family: "SF Mono", "Fira Code", Menlo, monospace;
+  font-size: 11px;
+  height: 28px;
+  justify-content: center;
+  left: 14px;
+  position: absolute;
+  top: 13px;
+  width: 28px;
+}
+
+.trinity-note {
+  border-color: rgba(251, 191, 36, 0.25);
+}
+
+.trinity-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.trinity-links a {
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  border-radius: 999px;
+  color: #c4b5fd;
+  font-size: 12px;
+  padding: 8px 12px;
+  text-decoration: none;
+}
+
+.trinity-links a:hover {
+  border-color: #c4b5fd;
+  color: #f8fafc;
+}
+
+@media (max-width: 760px) {
+  .trinity-page {
+    padding: 20px 14px 56px;
+  }
+
+  .trinity-hero,
+  .trinity-section,
+  .trinity-card {
+    padding: 22px;
+  }
+
+  .trinity-map {
+    grid-template-columns: 1fr;
+  }
+
+  .trinity-superpowers {
+    grid-template-columns: 1fr;
+  }
+}
